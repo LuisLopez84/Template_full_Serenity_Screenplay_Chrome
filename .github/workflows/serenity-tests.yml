@@ -30,7 +30,7 @@ jobs:
         run: mvn clean verify -Dcucumber.options="--plugin pretty" -Dserenity.logging=VERBOSE
 
       - name: Upload Serenity report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: serenity-report
           path: target/site/serenity
