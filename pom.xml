@@ -6,8 +6,8 @@
     <artifactId>template-e2e-serenity</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>serenity-cucumber-testing-template</name>
-    <description>Template of automated testing with Serenity and cucumber</description>
+    <name>template-serenity-screenplay-maven-chrome</name>
+    <description>Template de pruebas automatizadas con Serenity y Cucumber</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,8 +15,9 @@
         <junit.platform.version>1.10.0</junit.platform.version>
         <cucumber.version>7.14.0</cucumber.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
+        <enable.preview>true</enable.preview>
         <maven.surefire.plugin.version>3.2.1</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>3.2.1</maven.failsafe.plugin.version>
     </properties>
@@ -93,6 +94,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
+                    <argLine>--enable-preview</argLine>
                     <skip>true</skip>
                 </configuration>
             </plugin>
@@ -129,6 +131,11 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <compilerArgs>--enable-preview</compilerArgs>
+                    <release>22</release>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                    <fork>true</fork>
                 </configuration>
             </plugin>
             <plugin>
