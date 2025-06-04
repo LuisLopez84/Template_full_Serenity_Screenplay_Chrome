@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CheckStyle-IDEA" serialisationVersion="2">
+    <checkstyleVersion>10.17.0</checkstyleVersion>
+    <scanScope>AllSourcesWithTests</scanScope>
+    <option name="thirdPartyClasspath" />
+    <option name="activeLocationIds">
+      <option value="53abb4fc-d203-4670-8802-22c6584c6d2a" />
+    </option>
+    <option name="locations">
+      <list>
+        <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
+        <ConfigurationLocation id="53abb4fc-d203-4670-8802-22c6584c6d2a" type="HTTP_URL" scope="All" description="BdB">
+          https://raw.githubusercontent.com/bancodebogota/bbog-dig-do-testing-pipeline/master/.github/linters/sun_checks.xml?token=GHSAT0AAAAAACNJVW2AK3SREVGGZ4NQMBXGZVJHPHA
+          <option name="properties">
+            <map>
+              <entry key="org.checkstyle.sun.suppressionfilter.config" value="" />
+              <entry key="org.checkstyle.sun.suppressionxpathfilter.config" value="" />
+            </map>
+          </option>
+        </ConfigurationLocation>
+      </list>
+    </option>
+  </component>
+</project>
