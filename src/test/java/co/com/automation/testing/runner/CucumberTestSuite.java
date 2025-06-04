@@ -1,17 +1,27 @@
 package co.com.automation.testing.runner;
 
 import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
+import org.junit.runner.RunWith;
 
-@Suite
-@IncludeEngines("cucumber")
-@SelectClasspathResource("co.com.automation.testing")
-@SelectClasspathResource("/features")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "co.com.automation.testing")
-public class CucumberTestSuite { }
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"pretty", "html:target/cucumber-reports/cucumber.html"},
+        features = "src/test/resources/features",
+        glue = "co.com.bdb.automation.stepdefinitions",
+        snippets = CucumberOptions.SnippetType.CAMELCASE
+)
+public class CucumberTestSuite {}
+
+
 
 
 /*
