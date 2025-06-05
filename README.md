@@ -1,35 +1,18 @@
-# bbog-cat-serenity-testing-template
+# Template Serenity Screenplay BDD Maven con Chrome
 
-This is a template for testing Serenity BDD with Cucumber and JUnit.
+Esta es una plantilla de ejemplo para utilizar Serenity con Screenplay en un proyecto tipo Maven.
 
-## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+### Prerrequisitos
 
-### Prerequisites
-
-What things you need to install the software and how to install them
+Algunas configuraciones a tener el cuenta:
 
 ```
-Java 17
+Java 17+
 Maven
 ```
 
-### Installing and Running
-
-Using Maven Wrapper:
-
-Install
-
-```
-# In Mac/Linux
-./mvnw clean install
-
-# In Windows
-.\mvnw.cmd clean install
-```
-
-And run tests
+### Ejecución
 
 ```
 # In Mac/Linux
@@ -38,17 +21,6 @@ And run tests
 # In Windows
 .\mvnw.cmd clean verify
 ```
-
-### Update drivers
-Open a terminal (Bash or Powershell) with admin permissions
-
-Run the script
-```
-# In Mac/Linux
-./scripts/update-driver.sh
-
-# In Windows
-.\scripts\update-driver.ps1
 ```
 
 ### Environment variables
@@ -56,13 +28,8 @@ Run the script
 To run in Browserstack:
 
 ```
+### Ejecucion en BrowserStack
+
 export BROWSERSTACK_KEY="value"
 export BROWSERSTACK_USER="value"
-```
-
-To install with Jfrog BdB:
-
-```
-export ARTIFACTORY_READER_USER="value"
-export ARTIFACTORY_READER_API_KEY="value"
 ```
