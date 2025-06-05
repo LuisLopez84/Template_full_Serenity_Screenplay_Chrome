@@ -7,7 +7,7 @@ Feature: Login en la página web de OrangeHRM
     Given "User" abre la página web
     When Inicia sesión con las credenciales "Admin" y "admin123"
     Then Debe iniciar sesión correctamente
-    
+
   @InValidCredentials
   Scenario: Inicio de  sesión con credenciales no válidas
 

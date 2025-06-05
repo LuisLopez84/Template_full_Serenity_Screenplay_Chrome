@@ -1,18 +1,17 @@
 package co.com.automation.testing.runner;
 
-import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
-
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
+import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
 
 
-@RunWith(Cucumber.class)
+@RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber-reports/cucumber.html"},
         features = "src/test/resources/features",
-        glue = "co.com.bdb.automation.stepdefinitions",
+        glue = "co.com.automation.testing.definitions",
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
 public class CucumberTestSuite {}
