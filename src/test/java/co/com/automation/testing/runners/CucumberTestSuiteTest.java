@@ -1,6 +1,5 @@
-package co.com.automation.testing.runner;
+package co.com.automation.testing.runners;
 
-import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
@@ -14,13 +13,13 @@ import org.junit.runner.RunWith;
         glue = "co.com.automation.testing.definitions",
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
-public class CucumberTestSuite {}
+public class CucumberTestSuiteTest {}
 
 
 
 
 /*
-📄 Documentación Clase: CucumberTestSuite
+📄 Documentación Clase: CucumberTestSuiteTest
 
 📦 Paquete:
 
