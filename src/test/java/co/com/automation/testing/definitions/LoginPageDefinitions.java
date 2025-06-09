@@ -42,7 +42,7 @@ public class LoginPageDefinitions {
 /*
 📄 Documentación Clase: LoginPageDefinitions
 
-📦 Paquete:
+📦 Paquete :
 
 co.com.automation.testing.definitions
 
