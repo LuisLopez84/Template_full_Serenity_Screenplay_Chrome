@@ -1,8 +1,10 @@
 name: Serenity BDD Tests
-run: mvn clean verify -X
 
 on:
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
@@ -27,11 +29,40 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
-      - name: Run Serenity tests with Maven
-        run: mvn clean verify -Dcucumber.options="--plugin pretty" -Dserenity.logging=VERBOSE
+      - name: Run Serenity tests with detailed logging
+        run: |
+          mvn clean verify \
+            -Dserenity.console.colors=true \
+            -Dserenity.logging=VERBOSE \
+            -Dcucumber.plugin="pretty,html:target/cucumber-reports/cucumber.html" \
+            -Dmaven.test.failure.ignore=true \
+            -Dserenity.console.headings=normal \
+            -Dserenity.console.width=132 \
+            -Dserenity.take.screenshots=FOR_EACH_ACTION
+        env:
+          JAVA_OPTS: "-Xmx2048m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
-      - name: Upload Serenity report
+      - name: Archive Serenity HTML report
         uses: actions/upload-artifact@v4
         with:
-          name: serenity-report
+          name: serenity-html-report
           path: target/site/serenity
+          retention-days: 7
+
+      - name: Archive Cucumber HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cucumber-html-report
+          path: target/cucumber-reports
+          retention-days: 7
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: |
+            **/target/failsafe-reports
+            **/target/surefire-reports
+          retention-days: 7
