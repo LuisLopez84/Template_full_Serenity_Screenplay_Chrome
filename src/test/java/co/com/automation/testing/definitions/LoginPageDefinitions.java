@@ -157,5 +157,5 @@ Cada método está alineado 1:1 con una frase Gherkin.
 
 Muy útil para mantener trazabilidad clara entre prueba funcional y automatización.
 
-Actualizacion
+Actualizacion 002
  */
