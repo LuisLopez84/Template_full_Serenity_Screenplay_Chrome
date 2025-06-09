@@ -16,7 +16,7 @@ Maven
 
 ```
 # In Mac/Linux
-./mvnw clean verify
+./mvnw verify
 
 # In Windows
 .\mvnw.cmd clean verify
