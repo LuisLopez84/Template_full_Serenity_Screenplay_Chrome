@@ -11,6 +11,7 @@ on:
 jobs:
   run-serenity-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -34,11 +35,13 @@ jobs:
           mvn clean verify \
             -Dserenity.console.colors=true \
             -Dserenity.logging=VERBOSE \
-            -Dcucumber.plugin="pretty,html:target/cucumber-reports/cucumber.html" \
-            -Dmaven.test.failure.ignore=true \
+            -Dserenity.reports.show.step.details=true \
             -Dserenity.console.headings=normal \
             -Dserenity.console.width=132 \
-            -Dserenity.take.screenshots=FOR_EACH_ACTION
+            -Dserenity.take.screenshots=FOR_EACH_ACTION \
+            -Dcucumber.plugin="pretty,html:target/cucumber-reports/cucumber.html,junit:target/serenity-reports/junit.xml" \
+            -Dserenity.outputDirectory=target/site/serenity \
+            -Dmaven.test.failure.ignore=true
         env:
           JAVA_OPTS: "-Xmx2048m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
@@ -49,20 +52,12 @@ jobs:
           path: target/site/serenity
           retention-days: 7
 
-      - name: Archive Cucumber HTML report
+      - name: Archive test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cucumber-html-report
-          path: target/cucumber-reports
-          retention-days: 7
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: |
-            **/target/failsafe-reports
-            **/target/surefire-reports
-          retention-days: 7
+           name: test-results
+           path: |
+             **/target/serenity-reports
+             **/target/cucumber-reports
+           retention-days: 7
