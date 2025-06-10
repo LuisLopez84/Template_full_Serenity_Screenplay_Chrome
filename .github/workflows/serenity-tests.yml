@@ -21,19 +21,21 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+
       - name: Run Serenity tests with maximum verbosity
         run: |
           mvn clean verify \
-            -Dserenity.console.headings=normal \
-            -Dserenity.console.colors=true \
-            -Dserenity.logging=VERBOSE \
-            -Dserenity.reports.show.step.details=true \
-            -Dserenity.take.screenshots=FOR_EACH_ACTION \
-            -Dserenity.console.width=132 \
-            -Dcucumber.plugin="pretty,html:target/cucumber-reports/cucumber.html" \
-            -Dserenity.outputDirectory=target/site/serenity \
-            -Dmaven.test.failure.ignore=true \
-            -B -e -X
+          -Dcucumber.features=src/test/resources/features \
+          -Dcucumber.glue=co.com.automation.testing.definitions \
+          -Dserenity.console.headings=normal \
+          -Dserenity.console.colors=true \
+          -Dserenity.logging=VERBOSE \
+          -Dserenity.reports.show.step.details=true \
+          -Dserenity.take.screenshots=FOR_EACH_ACTION \
+          -Dserenity.console.width=132 \
+          -Dcucumber.plugin="pretty,html:target/cucumber-reports/cucumber.html" \
+          -Dserenity.outputDirectory=target/site/serenity \
+          -B -e -X
         env:
           JAVA_OPTS: "-Xmx2048m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
