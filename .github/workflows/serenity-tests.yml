@@ -38,7 +38,7 @@ jobs:
           JAVA_OPTS: "-Xmx2048m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
       - name: Archive Serenity Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: serenity-report
