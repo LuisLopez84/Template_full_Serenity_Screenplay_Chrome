@@ -3,13 +3,61 @@ name: security-testing
 on:
   workflow_dispatch:
     inputs:
-      release_id:
-        type: string
-        description: Prueba pipeline de Seguridad demo
+      target_url:
+        description: 'URL objetivo para el escaneo de seguridad'
         required: true
+        default: 'https://opensource-demo.orangehrmlive.com'
+      zap_options:
+        description: 'Opciones adicionales para ZAP'
+        required: false
+        default: '-t 60 -a'
+
+env:
+  ZAP_VERSION: '2.12.0'
+  ZAP_PORT: '8080'
+
 jobs:
-  integration-security-tests:
-    uses: https://github.com/LuisLopez84/Template_full_Serenity_Screenplay_Chrome/actions/workflows/security-testing.yml@v1
-    with:
-      repository: 'Template_full_Serenity_Screenplay_Chrome'
-      target-url-zap: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: OWASP ZAP Security Scan
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download and start OWASP ZAP
+        run: |
+          wget https://github.com/zaproxy/zaproxy/releases/download/v$ZAP_VERSION/zaproxy-$ZAP_VERSION.zip
+          unzip zaproxy-$ZAP_VERSION.zip
+          ./zap-$ZAP_VERSION/zap.sh -daemon -port $ZAP_PORT -host 0.0.0.0 -config api.disablekey=true &
+          sleep 15
+
+      - name: Run ZAP Baseline Scan
+        run: |
+          docker run --rm \
+            -v $(pwd):/zap/wrk/:rw \
+            -t owasp/zap2docker-stable:latest zap-baseline.py \
+            -t ${{ inputs.target_url }} \
+            -g gen.conf \
+            -r zap_report.html \
+            ${{ inputs.zap_options }}
+
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-security-report
+          path: zap_report.html
+          if-no-files-found: warn
+
+      - name: Check for critical findings
+        id: zap_results
+        run: |
+          if grep -q "High" zap_report.html; then
+          echo "::error::Se encontraron vulnerabilidades de alta prioridad"
+          exit 1
+          fi
