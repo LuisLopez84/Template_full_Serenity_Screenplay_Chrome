@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       target_url:
-        description: 'URL objetivo para el escaneo de seguridad'
+        description: 'URL objetivo para el escaneo de seguridad 002'
         required: true
         default: 'https://opensource-demo.orangehrmlive.com'
       zap_options:
