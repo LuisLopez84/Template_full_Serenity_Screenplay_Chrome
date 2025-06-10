@@ -30,15 +30,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Download and start OWASP ZAP
+      - name: Run ZAP Baseline Scan using Docker
         run: |
-          wget https://github.com/zaproxy/zaproxy/releases/download/v$ZAP_VERSION/zaproxy-$ZAP_VERSION.zip
-          unzip zaproxy-$ZAP_VERSION.zip
-          ./zap-$ZAP_VERSION/zap.sh -daemon -port $ZAP_PORT -host 0.0.0.0 -config api.disablekey=true &
-          sleep 15
-
-      - name: Run ZAP Baseline Scan
-        run: |
+          docker pull owasp/zap2docker-stable:latest
           docker run --rm \
             -v $(pwd):/zap/wrk/:rw \
             -t owasp/zap2docker-stable:latest zap-baseline.py \
@@ -58,6 +52,6 @@ jobs:
         id: zap_results
         run: |
           if grep -q "High" zap_report.html; then
-          echo "::error::Se encontraron vulnerabilidades de alta prioridad"
-          exit 1
+            echo "::error::Se encontraron vulnerabilidades de alta prioridad"
+            exit 1
           fi
