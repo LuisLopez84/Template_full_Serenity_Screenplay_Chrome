@@ -13,5 +13,3 @@ jobs:
     with:
       repository: 'Template_full_Serenity_Screenplay_Chrome'
       target-url-zap: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
-      release_id_steward: '001'
-      prefix_team: 'LLO'
