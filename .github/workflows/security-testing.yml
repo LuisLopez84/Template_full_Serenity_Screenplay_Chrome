@@ -9,7 +9,7 @@ on:
         required: true
 jobs:
   integration-security-tests:
-    uses: https://github.com/LuisLopez84/Template_full_Serenity_Screenplay_Chrome/actions/workflows/security-testing.yml
+    uses: https://github.com/LuisLopez84/Template_full_Serenity_Screenplay_Chrome/actions/workflows/security-testing.yml@v1
     with:
       repository: 'Template_full_Serenity_Screenplay_Chrome'
       target-url-zap: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login'
