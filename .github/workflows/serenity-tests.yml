@@ -49,6 +49,9 @@ jobs:
         env:
           JAVA_OPTS: "-Xmx2048m"
 
+      - name: List target directory contents
+        run: ls -R target/site
+
       - name: Debug directory structure
         run: |
           echo "Verificando estructura del proyecto..."
