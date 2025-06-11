@@ -51,12 +51,7 @@
             <artifactId>serenity-ensure</artifactId>
             <version>${serenity.version}</version>
         </dependency>
-        <!-- CUCUMBER dependencies -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
+
         <!-- JUNIT dependencies -->
         <dependency>
             <groupId>junit</groupId>
