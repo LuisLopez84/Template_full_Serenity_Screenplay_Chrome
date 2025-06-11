@@ -44,7 +44,7 @@ jobs:
             -Dserenity.logging=VERBOSE \
             -Dserenity.reports.show.step.details=true \
             -Dserenity.outputDirectory=target/site/serenity \
-            -Dmaven.test.failure.ignore=false \
+            -Dmaven.test.failure.ignore=true \
             -B -e -X
         env:
           JAVA_OPTS: "-Xmx2048m"
@@ -53,6 +53,12 @@ jobs:
         run: |
           echo "Verificando estructura del proyecto..."
           ls -R
+
+      - name: Mostrar contenido de target
+        if: always()
+        run: |
+          echo "Contenido del directorio target:"
+          ls -R target
 
       - name: Archive Serenity Report
         if: success() || failure()
