@@ -83,21 +83,8 @@
 
     <build>
         <plugins>
-            <plugin>
-                <!-- Plugin para tests unitarios -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <includes>
-                        <include>**/CucumberTestSuiteTest.java</include>
-                    </includes>
-                    <systemPropertyVariables>
-                        <!--suppress UnresolvedMavenProperty -->
-                        <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
+
+
             <!-- Plugin para tests de integración (Serenity suele usar este) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
