@@ -49,6 +49,11 @@ jobs:
         env:
           JAVA_OPTS: "-Xmx2048m"
 
+      - name: Debug directory structure
+        run: |
+          echo "Verificando estructura del proyecto..."
+          ls -R
+
       - name: Archive Serenity Report
         if: success() || failure()
         uses: actions/upload-artifact@v4
