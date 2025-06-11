@@ -1,4 +1,6 @@
 name: security-testing
+# Este pipeline ejecuta las validaciones de seguridad de OWASP.
+# IMPORTANTE: Este pipeline no se ejecuta de forma automática, para su ejecución se debe dar clic en Run-workflow desde Github
 
 on:
   workflow_dispatch:
