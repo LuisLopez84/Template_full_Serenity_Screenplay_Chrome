@@ -2,6 +2,7 @@
 Feature: Login en la página web de OrangeHRM
 
   @ValidCredentials
+    @regression
   Scenario: Inicio de sesión con credenciales válidas
 
     Given "User" abre la página web
@@ -9,6 +10,7 @@ Feature: Login en la página web de OrangeHRM
     Then Debe iniciar sesión correctamente
 
   @InValidCredentials
+    @smoke
   Scenario: Inicio de  sesión con credenciales no válidas
 
     Given "User" abre la página web
@@ -16,6 +18,7 @@ Feature: Login en la página web de OrangeHRM
     Then Debe ver el mensaje de error "Invalid credentials"
 
   @BlankUsername
+  @regression
   Scenario: Inicio de sesión con nombre de usuario en blanco
 
     Given "User" abre la página web
@@ -23,6 +26,7 @@ Feature: Login en la página web de OrangeHRM
     Then Debe ver el mensaje de error "Required" debajo del nombre de usuario
 
   @BlankPassword
+  @smoke
   Scenario: Inicio de  sesión con contraseña en blanco
 
     Given "User" abre la página web
