@@ -1,4 +1,5 @@
 name: Serenity BDD Tests
+# IMPORTANTE: Éste pipeline se ejecuta automáticamente.
 
 on:
   push:

@@ -1,5 +1,6 @@
 name: requirements-project
 # Este pipeline ejecuta las validaciones de seguridad de sonar y lint y security checks (validación de credenciales).
+# IMPORTANTE: Éste pipeline se ejecuta automáticamente.
 
 on:
   pull_request:
