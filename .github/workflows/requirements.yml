@@ -3,20 +3,16 @@ name: requirements-project
 # IMPORTANTE: Éste pipeline se ejecuta automáticamente.
 
 on:
-  workflow_dispatch: # Permite ejecución manual
+  workflow_dispatch:
     inputs:
-      environment:
-        description: 'Entorno objetivo'
+      target_url:
+        description: 'URL objetivo para el escaneo de seguridad 002'
         required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - master
-      reason:
-        description: 'Razón de la ejecución'
+        default: 'https://opensource-demo.orangehrmlive.com'
+      zap_options:
+        description: 'Opciones adicionales para ZAP'
         required: false
-        type: string
+        default: '-t 60 -a'
 
 jobs:
   requirements:

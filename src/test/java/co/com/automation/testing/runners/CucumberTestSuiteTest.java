@@ -4,13 +4,12 @@ import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
-
-
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber-reports/cucumber.html"},
         features = "src/test/resources/features",
         glue = "co.com.automation.testing.definitions",
+        tags = "@all",  // Esta línea filtra los escenarios que se quieran ejecutar ("@smoke or @regression" o solo los "@smoke")
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
 public class CucumberTestSuiteTest {}
