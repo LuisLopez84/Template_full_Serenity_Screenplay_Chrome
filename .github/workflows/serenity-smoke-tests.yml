@@ -6,10 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
-# Añade este bloque para controlar la ejecución concurrente
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false  # Cambia a true si prefieres cancelar la ejecución anterior
+  group: serenity-tests-${{ github.ref }}
+  cancel-in-progress: true  # Esto asegura que solo un pipeline se ejecute a la vez
 
 jobs:
   smoke-tests:
@@ -32,17 +31,35 @@ jobs:
         with:
           chrome-version: stable
 
+      - name: Configure unique Chrome environment
+        run: |
+          # Crear directorio único para esta ejecución
+          export CHROME_USER_DIR="/tmp/chrome-profile-$GITHUB_RUN_ID-$GITHUB_JOB"
+          mkdir -p "$CHROME_USER_DIR"
+          
+          # Forzar limpieza de procesos previos
+          pkill -f chrome || true
+          pkill -f chromedriver || true
+          rm -rf /tmp/.com.google.Chrome.* || true
+          rm -rf /tmp/chrome-profile-* || true
+
+        # Configurar variables de entorno
+          echo "CHROME_USER_DIR=$CHROME_USER_DIR" >> $GITHUB_ENV
+          echo "CHROME_OPTS=--user-data-dir=$CHROME_USER_DIR --no-sandbox --disable-dev-shm-usage --disable-gpu --headless --remote-debugging-port=9222 --window-size=1920,1080" >> $GITHUB_ENV
+
       - name: Run @smoke tagged Serenity tests
         run: |
-          # Directorio temporal único por ejecución
-          export TMP_DIR="/tmp/chrome-$GITHUB_RUN_ID"
-          mkdir -p $TMP_DIR
+          echo "Using Chrome profile directory: $CHROME_USER_DIR"
+          echo "Chrome options: $CHROME_OPTS"
 
+        # Configuración específica para WebDriverManager
+          export WDMM_CHROMEARGS="$CHROME_OPTS"
+    
           mvn clean verify \
             -Dcucumber.filter.tags="@smoke" \
             -Dwebdriver.driver=chrome \
-            -Dwebdriver.chrome.switches="--user-data-dir=$TMP_DIR --no-sandbox --disable-dev-shm-usage --disable-gpu --headless --window-size=1920,1080" \
             -Dwebdriver.chrome.switches="$CHROME_OPTS" \
+            -Dwdm.chromeDriverVersion="$(google-chrome --version | cut -d' ' -f3)" \
             -Dserenity.console.headings=normal \
             -Dserenity.console.colors=true \
             -Dserenity.logging=VERBOSE \
@@ -55,19 +72,15 @@ jobs:
             -B -e
         env:
           JAVA_OPTS: "-Xmx2048m"
+          WDMM_CHROMEARGS: ${{ env.CHROME_OPTS }}
 
-      - name: Check system resources
-        run: |
-          free -h
-          df -h
-          ps aux
-
-      - name: Clean up Chrome processes
+      - name: Force cleanup
         if: always()
         run: |
           pkill -f chrome || true
           pkill -f chromedriver || true
-          rm -rf /tmp/chrome-data-* || true
+          rm -rf "$CHROME_USER_DIR" || true
+          rm -rf /tmp/.com.google.Chrome.* || true
 
       - name: Upload Serenity Report
         if: always()
