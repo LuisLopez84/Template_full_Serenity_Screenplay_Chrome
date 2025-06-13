@@ -56,6 +56,12 @@ jobs:
         env:
           JAVA_OPTS: "-Xmx2048m"
 
+      - name: Check system resources
+        run: |
+          free -h
+          df -h
+          ps aux
+
       - name: Clean up Chrome processes
         if: always()
         run: |
