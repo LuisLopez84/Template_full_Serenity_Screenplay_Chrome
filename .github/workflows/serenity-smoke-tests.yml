@@ -6,10 +6,15 @@ on:
   pull_request:
     branches: [ master ]
 
+# Añade este bloque para controlar la ejecución concurrente
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false  # Cambia a true si prefieres cancelar la ejecución anterior
+
 jobs:
   smoke-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # Agrega timeout como en el otro pipeline
+    timeout-minutes: 30
 
     steps:
       - name: Checkout code
@@ -22,21 +27,23 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Set up Chrome  # Agrega este paso que falta
+      - name: Set up Chrome
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
 
       - name: Run @smoke tagged Serenity tests
         run: |
-          echo "CHROME PATH: $(which google-chrome)"  # Debug como en el pipeline bueno
-          google-chrome --version
+          # Configuración de directorio único por ejecución
+          export UNIQUE_ID="$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          export CHROME_OPTS="--user-data-dir=/tmp/chrome-data-$UNIQUE_ID --no-sandbox --disable-dev-shm-usage --disable-gpu --headless --window-size=1920,1080"
+          
+          echo "Using Chrome options: $CHROME_OPTS"
           
           mvn clean verify \
             -Dcucumber.filter.tags="@smoke" \
             -Dwebdriver.driver=chrome \
-            -Dchrome.headless=true \
-            -Dchrome.switches="--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--window-size=1920,1080" \
+            -Dwebdriver.chrome.switches="$CHROME_OPTS" \
             -Dserenity.console.headings=normal \
             -Dserenity.console.colors=true \
             -Dserenity.logging=VERBOSE \
@@ -49,6 +56,13 @@ jobs:
             -B -e
         env:
           JAVA_OPTS: "-Xmx2048m"
+
+      - name: Clean up Chrome processes
+        if: always()
+        run: |
+          pkill -f chrome || true
+          pkill -f chromedriver || true
+          rm -rf /tmp/chrome-data-* || true
 
       - name: Upload Serenity Report
         if: always()
