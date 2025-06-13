@@ -1,24 +1,32 @@
 name: requirements-project
-# Este pipeline ejecuta las validaciones de seguridad de sonar y lint y security checks (validación de credenciales).
-# IMPORTANTE: Éste pipeline se ejecuta automáticamente.
+  # Este pipeline ejecuta las validaciones de seguridad de sonar y lint y security checks (validación de credenciales).
+  # IMPORTANTE: Ahora solo se ejecuta manualmente desde la interfaz de GitHub Actions
 
 on:
-  workflow_dispatch:
-  pull_request:
-    branches:
-      - staging
-      - master
+  workflow_dispatch:  # Permite ejecución manual
+    inputs:
+      environment:
+        description: 'Entorno objetivo'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - master
+      reason:
+        description: 'Razón de la ejecución'
+        required: false
+        type: string
 
 jobs:
   requirements:
-    # cambiar la siguiente línea después de uses: por lo siguiente: bancodebogota/bbog-dig-do-testing-pipeline/.github/workflows/requirements_frontend.yml@v7
     uses: xxxxx/xxxx-xxxx-xx-xxx-xxx/.xxx/xxx/xxxx_xxxxx.yml@v7
     with:
       # coloque el nombre de su proyecto de Github
       project-name: bbog-xxxx-xxxxxx-automated-testing
       # repita nuevamente el nombre de su proyecto de Github
-      project-key: bbog-xxxx-xxxxxx-automated-testing
+      project-key: xxxx-xxxx-xxxxxx-automated-testing
       language: java
       # este archivo esta en la raiz del proyecto
       sonar-project-properties-file: 'sonar-project-custom.properties'
-    secrets: inherit
+      secrets: inherit
