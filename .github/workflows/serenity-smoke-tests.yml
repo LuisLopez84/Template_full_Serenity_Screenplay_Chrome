@@ -34,15 +34,14 @@ jobs:
 
       - name: Run @smoke tagged Serenity tests
         run: |
-          # Configuración de directorio único por ejecución
-          export UNIQUE_ID="$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
-          export CHROME_OPTS="--user-data-dir=/tmp/chrome-data-$UNIQUE_ID --no-sandbox --disable-dev-shm-usage --disable-gpu --headless --window-size=1920,1080"
-          
-          echo "Using Chrome options: $CHROME_OPTS"
-          
+          # Directorio temporal único por ejecución
+          export TMP_DIR="/tmp/chrome-$GITHUB_RUN_ID"
+          mkdir -p $TMP_DIR
+
           mvn clean verify \
             -Dcucumber.filter.tags="@smoke" \
             -Dwebdriver.driver=chrome \
+            -Dwebdriver.chrome.switches="--user-data-dir=$TMP_DIR --no-sandbox --disable-dev-shm-usage --disable-gpu --headless --window-size=1920,1080" \
             -Dwebdriver.chrome.switches="$CHROME_OPTS" \
             -Dserenity.console.headings=normal \
             -Dserenity.console.colors=true \
