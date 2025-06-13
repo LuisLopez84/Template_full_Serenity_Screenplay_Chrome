@@ -21,7 +21,7 @@ jobs:
               mvn clean verify -Denvironment=remote -D"cucumber.filter.tags=${{ github.event.inputs.cucumber-tag }}" -P"Regresion"
     uses: bancodebogota/bbog-dig-do-testing-pipeline/.github/workflows/test_frontend_integration.yml@v7
     with:
-      java-version: 17
+      java-version: 22
       aws-region: "us-east-1"
       command-install: ""
       command-execute: ${{ matrix.commands }}

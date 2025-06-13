@@ -1,7 +1,6 @@
 name: Serenity Smoke Tests
 
 on:
-  #workflow_dispatch:  # permite ejecutarlo manualmente desde GitHub
   push:
     branches: [ master ]
   pull_request:
@@ -15,17 +14,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '22'
+          java-version: '22'  # Asegúrate que coincide con tu proyecto
           distribution: 'temurin'
           cache: 'maven'
 
       - name: Run @smoke tagged Serenity tests
         run: |
+          export USER_DATA_DIR="/tmp/chrome-data-$(date +%s)"
+          mkdir -p $USER_DATA_DIR
+          
           mvn clean verify \
             -Dcucumber.filter.tags="@smoke" \
+            -Dwebdriver.driver=chrome \
+            -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver \
+            -Dwebdriver.chrome.arguments="--user-data-dir=$USER_DATA_DIR --no-sandbox --disable-dev-shm-usage --headless" \
             -Dserenity.console.headings=normal \
             -Dserenity.console.colors=true \
             -Dserenity.logging=VERBOSE \
@@ -39,9 +44,15 @@ jobs:
         env:
           JAVA_OPTS: "-Xmx2048m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 
+      - name: Clean up
+        if: always()
+        run: |
+          pkill -f chrome || true
+          rm -rf /tmp/chrome-data-* || true
+
       - name: Upload Serenity Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-            name: serenity-smoke-report
-            path: target/site/serenity
+          name: serenity-smoke-report
+          path: target/site/serenity
