@@ -5,14 +5,14 @@ name: requirements-project
 on:
   workflow_dispatch:
     inputs:
-      target_url:
-        description: 'URL objetivo para el escaneo de seguridad 002'
-        required: true
-        default: 'https://opensource-demo.orangehrmlive.com'
-      zap_options:
-        description: 'Opciones adicionales para ZAP'
+      cucumber-tag:
+        description: 'Tag de cucumber a ejecutar'
         required: false
-        default: '-t 60 -a'
+        default: '@tag' # Tag predeterminado
+  pull_request:
+     branches:
+      - staging
+      - master
 
 jobs:
   requirements:
