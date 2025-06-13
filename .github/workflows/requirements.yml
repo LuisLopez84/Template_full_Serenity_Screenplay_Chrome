@@ -3,6 +3,7 @@ name: requirements-project
 # IMPORTANTE: Éste pipeline se ejecuta automáticamente.
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - staging

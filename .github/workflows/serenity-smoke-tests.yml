@@ -9,28 +9,34 @@ on:
 jobs:
   smoke-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Agrega timeout como en el otro pipeline
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
+      - name: Set up JDK 22
         uses: actions/setup-java@v3
         with:
-          java-version: '22'  # Asegúrate que coincide con tu proyecto
+          java-version: '22'
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Set up Chrome  # Agrega este paso que falta
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
+
       - name: Run @smoke tagged Serenity tests
         run: |
-          export USER_DATA_DIR="/tmp/chrome-data-$(date +%s)"
-          mkdir -p $USER_DATA_DIR
+          echo "CHROME PATH: $(which google-chrome)"  # Debug como en el pipeline bueno
+          google-chrome --version
           
           mvn clean verify \
             -Dcucumber.filter.tags="@smoke" \
             -Dwebdriver.driver=chrome \
-            -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver \
-            -Dwebdriver.chrome.arguments="--user-data-dir=$USER_DATA_DIR --no-sandbox --disable-dev-shm-usage --headless" \
+            -Dchrome.headless=true \
+            -Dchrome.switches="--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--window-size=1920,1080" \
             -Dserenity.console.headings=normal \
             -Dserenity.console.colors=true \
             -Dserenity.logging=VERBOSE \
@@ -42,13 +48,7 @@ jobs:
             -Dmaven.test.failure.ignore=false \
             -B -e
         env:
-          JAVA_OPTS: "-Xmx2048m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
-
-      - name: Clean up
-        if: always()
-        run: |
-          pkill -f chrome || true
-          rm -rf /tmp/chrome-data-* || true
+          JAVA_OPTS: "-Xmx2048m"
 
       - name: Upload Serenity Report
         if: always()
