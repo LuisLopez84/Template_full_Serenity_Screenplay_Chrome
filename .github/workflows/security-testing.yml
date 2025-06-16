@@ -38,11 +38,19 @@ jobs:
           path: |
             zap_report.html
             zap_report.md
+            zap_report.json
           if-no-files-found: warn
 
-      - name: Check for critical findings
+      - name: Check for critical findings in HTML
         run: |
           if grep -q "High" zap_report.html; then
             echo "::error::Se encontraron vulnerabilidades de alta prioridad"
+            exit 1
+          fi
+
+      - name: Analyze ZAP JSON Report
+        run: |
+          if jq '.site.alerts[] | select(.riskcode=="3")' zap_report.json; then
+            echo "::error::Se encontraron vulnerabilidades de alta prioridad en el reporte JSON"
             exit 1
           fi
