@@ -13,33 +13,36 @@ on:
         default: '-t 60 -a'
 
 jobs:
-  zap_scan:
-    runs-on: ubuntu-latest
-    name: OWASP ZAP Security Scan
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  jobs:
+    zap_scan:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
 
-      - name: Run OWASP ZAP Baseline Scan using GHCR
-        run: |
-          docker run -v $(pwd):/zap/wrk \--user root \ghcr.io/zaproxy/zaproxy:stable \zap.sh -cmd -autorun /zap/wrk/zap.yaml
-            -t https://opensource-demo.orangehrmlive.com/web/index.php/auth/login \
-            -r zap_report.html \
-            -x zap_report.xml \
-            -J zap_report.json
+        - name: Run ZAP Baseline Scan
+          run: |
+            docker run --user root --rm \
+              -v ${{ github.workspace }}:/zap/wrk/:rw \ghcr.io/zaproxy/zaproxy:stable \zap-baseline.py -t https://opensource-demo.orangehrmlive.com -r zap_report.html
 
-      - name: Upload ZAP Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap-security-reports
-          path: |
-            zap_report.html
-            zap_report.md
-          if-no-files-found: warn
+        - name: Upload ZAP Report
+          uses: actions/upload-artifact@v3
+          with:
+            name: zap-report
+            path: zap_report.html
 
-      - name: Check for critical findings
-        run: |
-          if grep -q "High" zap_report.html; then
-            echo "::error::Se encontraron vulnerabilidades de alta prioridad"
-            exit 1
-          fi
+        - name: Upload ZAP Reports
+          uses: actions/upload-artifact@v4
+          with:
+            name: zap-security-reports
+            path: |
+              zap_report.html
+              zap_report.md
+            if-no-files-found: warn
+
+        - name: Check for critical findings
+          run: |
+            if grep -q "High" zap_report.html; then
+              echo "::error::Se encontraron vulnerabilidades de alta prioridad"
+              exit 1
+            fi
