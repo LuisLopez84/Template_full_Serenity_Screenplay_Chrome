@@ -1,5 +1,5 @@
 name: Serenity BDD Tests
-# IMPORTANTE: Éste pipeline se ejecuta automáticamente.
+# IMPORTANTE: Éste pipeline se ejecuta automáticamente cada vez que se hace push a rama master.
 
 on:
   push:
