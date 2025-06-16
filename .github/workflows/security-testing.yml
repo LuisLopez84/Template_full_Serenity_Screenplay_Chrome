@@ -1,23 +1,16 @@
 name: security-testing
-# Este pipeline ejecuta las validaciones de seguridad de OWASP.
-# IMPORTANTE: Este pipeline no se ejecuta de forma automática, para su ejecución se debe dar clic en Run-workflow desde Github
 
 on:
   workflow_dispatch:
     inputs:
       target_url:
-        description: 'URL objetivo para el escaneo de seguridad 002'
+        description: 'URL objetivo para el escaneo de seguridad'
         required: true
         default: 'https://opensource-demo.orangehrmlive.com'
       zap_options:
         description: 'Opciones adicionales para ZAP'
         required: false
         default: '-t 60 -a'
-
-env:
-  ZAP_VERSION: '2.12.0'
-  ZAP_PORT: '8080'
-  ZAP_DIR: '/opt/zaproxy'
 
 jobs:
   zap_scan:
@@ -27,10 +20,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run OWASP ZAP Baseline Scan
+      - name: Run OWASP ZAP Baseline Scan using GHCR
         run: |
-          docker run -v $(pwd):/zap/wrk/:rw \
-            -t owasp/zap2docker-stable zap-baseline.py \
+          docker run --rm -v $(pwd):/zap/wrk/:rw \
+            ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
             -t ${{ inputs.target_url }} \
             -j \
             -r zap_report.html \
@@ -49,6 +42,6 @@ jobs:
       - name: Check for critical findings
         run: |
           if grep -q "High" zap_report.html; then
-          echo "::error::Se encontraron vulnerabilidades de alta prioridad"
-          exit 1
+            echo "::error::Se encontraron vulnerabilidades de alta prioridad"
+            exit 1
           fi
