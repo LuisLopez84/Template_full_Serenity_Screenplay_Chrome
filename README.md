@@ -1,6 +1,6 @@
 # Template Serenity Screenplay BDD Maven con Chrome
 
-Esta es una plantilla de ejemplo para utilizar Serenity con Screenplay en un proyecto tipo Maven.
+Esta es una plantilla de ejemplo para utilizar Serenity con Screenplay y Cucumber en un proyecto tipo Maven.
 
 
 ### Prerrequisitos
