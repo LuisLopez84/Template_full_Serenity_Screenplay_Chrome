@@ -21,6 +21,8 @@ public class Hooks {
         WebDriver driver = DriverFactory.createDriver();
         OnStage.setTheStage(new OnlineCast());
         OnStage.theActorCalled("Usuario").can(BrowseTheWeb.with(driver));
+        System.setProperty("java.io.tmpdir", System.getProperty("user.home") + "/.tmp-serenity"); //mvn clean install -U
+
     }
 
     @Before
