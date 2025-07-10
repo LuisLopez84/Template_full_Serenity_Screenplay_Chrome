@@ -20,6 +20,7 @@ public class LoginPageDefinitions {
     @Then("Debe ver el mensaje de error {string}")
     public void debeVerElMensajeDeError(String expectedErrorMessage) {
         theActorInTheSpotlight().should(seeThat(ErrorLogin.porCredencialesInvalidas(expectedErrorMessage)));
+
     }
 
     @Then("Debe ver el mensaje de error {string} debajo del nombre de usuario")

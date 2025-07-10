@@ -1,4 +1,4 @@
-@all
+@01_login
 Feature: Login en la página web de OrangeHRM
 
   @ValidCredentials
