@@ -142,7 +142,7 @@ Depende de: ErrorLogin.byMissingPassword(...).
 
 🔹 ErrorLogin (Question): valida errores en login según el tipo (credenciales inválidas, campos vacíos).
 
-🔹 features/example/LoginPage.feature: contiene las frases en lenguaje natural que invocan estos métodos.
+🔹 features/example/01_Login_Page.feature: contiene las frases en lenguaje natural que invocan estos métodos.
 
 🔹 Hooks.java: inicializa los actores necesarios para que theActorInTheSpotlight() tenga contexto.
 
