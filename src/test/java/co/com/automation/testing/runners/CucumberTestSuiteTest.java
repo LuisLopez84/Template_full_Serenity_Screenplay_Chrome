@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber-reports/cucumber.html" , "json:target/cucumber-reports/cucumber.json"},
 //        features = "src/test/resources/features",
-        features = "src/test/resources/features/ConsultaUsuario.feature",
-//        features = "src/test/resources/features/CrearUsuario.feature",
+          features = "src/test/resources/features/ConsultaUsuario.feature",
+//          features = "src/test/resources/features/CrearUsuario.feature",
 //        features = "src/test/resources/features/LoginPage.feature",
         glue = "co.com.automation.testing.definitions",
         tags = "@_03_consultar_usuario",  // Esta línea filtra los escenarios que se quieran ejecutar ("@smoke or @regression" o solo los "@smoke")
