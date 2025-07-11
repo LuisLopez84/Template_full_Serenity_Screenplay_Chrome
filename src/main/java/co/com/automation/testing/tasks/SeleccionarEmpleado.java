@@ -32,7 +32,7 @@ public class SeleccionarEmpleado implements Task {
         actor.attemptsTo(
                 Click.on(campoEmployee), // Asegura que se active el campo
                 Enter.theValue(letraInicialNombre).into(campoEmployee),
-                WaitUntil.the(campoEmployee, isVisible()).forNoMoreThan(20).seconds(),
+                WaitUntil.the(campoEmployee, isVisible()).forNoMoreThan(25).seconds(),
 
                 // En lugar de hacer clic, simula que baja una vez y da ENTER
                 SendKeys.of(Keys.ARROW_DOWN).into(campoEmployee),

@@ -7,17 +7,15 @@ import org.junit.runner.RunWith;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber-reports/cucumber.html" , "json:target/cucumber-reports/cucumber.json"},
-//        features = "src/test/resources/features",
-          features = "src/test/resources/features/ConsultaUsuario.feature",
-//          features = "src/test/resources/features/CrearUsuario.feature",
-//        features = "src/test/resources/features/LoginPage.feature",
+        features = "src/test/resources/features",
+//          features = "src/test/resources/features/03_Consultar_Usuario.feature",
+//          features = "src/test/resources/features/02_Crear_Usuario.feature",
+//        features = "src/test/resources/features/01_Login_Page.feature",
         glue = "co.com.automation.testing.definitions",
-        tags = "@_03_consultar_usuario",  // Esta línea filtra los escenarios que se quieran ejecutar ("@smoke or @regression" o solo los "@smoke")
+        tags = "@all",  // Esta línea filtra los escenarios que se quieran ejecutar ("@smoke or @regression" o solo los "@smoke")
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
-public class
-
-CucumberTestSuiteTest {}
+public class CucumberTestSuiteTest {}
 
 
 
