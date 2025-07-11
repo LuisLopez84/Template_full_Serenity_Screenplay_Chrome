@@ -1,6 +1,7 @@
 package co.com.automation.testing.definitions;
 
 import co.com.automation.testing.questions.ValidarUsuarioConsultado;
+import co.com.automation.testing.questions.ValidarUsuarioCreado;
 import co.com.automation.testing.tasks.ConsultarUsuario;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,8 +21,6 @@ public class ConsultaUsuarioDefinitions {
 
     @Then("debería ver el usuario con nombre {string}")
     public void verificarInformacionUsuario(String nombreEsperado) {
-        theActorInTheSpotlight().should(
-                seeThat(ValidarUsuarioConsultado.name(), equalTo(nombreEsperado))
-        );
+        theActorInTheSpotlight().should(seeThat(ValidarUsuarioConsultado.validacionUsuarioConsultado()));
     }
 }
