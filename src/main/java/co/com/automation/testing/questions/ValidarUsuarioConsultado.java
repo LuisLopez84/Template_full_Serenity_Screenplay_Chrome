@@ -17,7 +17,7 @@ public class ValidarUsuarioConsultado implements Question<Boolean> {
         actor.attemptsTo(
                 WaitUntil.the(ConsultarUsuarioPage.SUCCESS_MESSAGE, isVisible()).forNoMoreThan(10).seconds(),
                 Ensure.that(ConsultarUsuarioPage.SUCCESS_MESSAGE).isDisplayed(),
-                Ensure.that(ConsultarUsuarioPage.SUCCESS_MESSAGE).text().contains("LLOPEZ5")
+                Ensure.that(ConsultarUsuarioPage.SUCCESS_MESSAGE).text().contains("LLOPEZ14")
         );
         return true;
     }

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run test [JUNIT]" type="JUnit" factoryName="JUnit">
+  <configuration default="false" name="Run CrearUsuario" type="JUnit" factoryName="JUnit">
     <module name="template-e2e-serenity" />
     <extension name="coverage">
       <pattern>
@@ -21,6 +21,7 @@
     <option name="MAIN_CLASS_NAME" value="co.com.automation.testing.runners.CucumberTestSuiteTest" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
+    <option name="VM_PARAMETERS" value="-Dcucumber.filter.tags=@02_crear_usuario" />
     <option name="PASS_PARENT_ENVS" value="false" />
     <envs>
       <env name="ARTIFACTORY_READER_API_KEY" value="yourapikeyinjfrog" />
